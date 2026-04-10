@@ -120,12 +120,31 @@ function mostrarTela(nomeTela) {
 //     j = Math.floor(Math.random() * (i + 1))
 //     troca copia[i] com copia[j]
 //   retorna copia
-function embaralhar(array) {}
+function embaralhar(array) {
+    let copia = array.slice()
+    for (let i = copia.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1)) // 3
+        let temp = copia[i] // i = 5 e ele é igual a "joao"
+        copia[i] = copia[j] // lucas
+        copia[j] = temp
+    }
+    return copia
+}
+let resultado = embaralhar([1,2,3,4,5,6])
+let resultado1 = embaralhar([1,2,3,4,5,6])
+let resultado2 = embaralhar([1,2,3,4,5,6])
+console.log(resultado)
+console.log(resultado1)
+console.log(resultado2)
 
 
 // calcularPontos(segundosRestantes)
 // Retorna: 500 + (segundosRestantes * 25)
-function calcularPontos(segundosRestantes) {}
+function calcularPontos(segundosRestantes) {
+    return 500 + (segundosRestantes * 25)
+}
+
+console.log(calcularPontos(5))
 
 // ------------------------------------------------------------
 // 4. LÓGICA DO JOGO
@@ -135,7 +154,33 @@ function calcularPontos(segundosRestantes) {}
 // Valida nickname (mínimo 2 chars).
 // Reseta o estado. Embaralha as perguntas.
 // Chama mostrarTela("questao") e mostrarPergunta().
-function iniciarJogo() {}
+function iniciarJogo() {
+    let nome = els.inputNickname.value.trim()
+
+    if(nome.length < 3) {
+        els.erroNickname.textContent = "Digite pelo menos 3 caracteres."
+        return
+    }
+
+    els.erroNickname.textContent = "";
+    estado.nickName = nome;
+    estado.pontos = 0;
+    estado.indiceAtual = 0;
+    estado.acertos = 0;
+    estado.erros = 0;
+
+ estado.perguntasJogo = embaralhar(perguntas)
+    mostrarTela("questao")
+    mostrarPergunta()
+}
+
+els.inputNickname.addEventListener("keydown", function(e) {
+    if(e.key === "Enter") {
+        iniciarJogo()
+    }
+})
+
+els.btnIniciar.addEventListener("click", iniciarJogo)
 
 
 // mostrarPergunta()
@@ -145,7 +190,8 @@ function iniciarJogo() {}
 // Conecta addEventListener em cada botão → responder(i).
 // Atenção: use "let i" no for, não "var i".
 // Chama iniciarTimer().
-function mostrarPergunta() {} 
+function mostrarPergunta() {
+} 
 
 
 // iniciarTimer()
