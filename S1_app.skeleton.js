@@ -293,23 +293,87 @@ function responder(indiceEscolhido) {
 // mostrarFeedback(acertou, pontosGanhos, explicacao)
 // Atualiza ícone, título, pontos e explicação.
 // Chama mostrarTela("feedback").
-function mostrarFeedback(acertou, pontosGanhos, explicacao) 
+function mostrarFeedback(acertou, pontosGanhos, explicacao) {
+    if(acertou) {
+        els.feedbackIcone.textContent = "😊👍✅"
+        els.feedbackTitulo.textContent = "Resposta Correta!"
+        els.feedbackTitulo.className = "feedback-titulo acerto"
+        els.feedbackPontos.textContent = "+ " + pontosGanhos + " pontos"
+    } else {
+        els.feedbackIcone.textContent = "😢👎❌"
+        els.feedbackTitulo.textContent = "Resposta Incorreta!"
+        els.feedbackTitulo.className = "feedback-titulo erro"
+        els.feedbackPontos.textContent = "+ 0 pontos"
+    }
+
+    els.feedbackExplic.textContent = explicacao
+    els.placarParcial.textContent = estado.pontos
+
+    mostrarTela("feedback")
+}
 
 
 // proximaPergunta()
 // indiceAtual++
 // Se ainda há perguntas → mostrarPergunta().
 // Senão → mostrarResultado().
-function proximaPergunta() {}
+function proximaPergunta() {
+    estado.indiceAtual++
+    // console.log(estado.indiceAtual)
+    if(estado.indiceAtual < estado.perguntasJogo.length) {
+        mostrarTela("questao")
+        mostrarPergunta()
+    } else {
+        mostrarResultado()
+    }
+}
 
-
-
+els.btnProxima.addEventListener('click', proximaPergunta)
 // mostrarResultado()
 // Calcula aproveitamento. Define medalha e mensagem.
 // Atualiza DOM da tela de resultado.
 // Chama mostrarTela("resultado").
-function mostrarResultado() {}
-   
+function mostrarResultado() {
+    let total = estado.perguntasJogo.length
+    let aproveitamento = Math.round((estado.acertos / total) * 100)
+
+    let medalha = "🙄"
+    let mensagem = "Mano, você tem DEMÊNCIA?"
+
+    if (aproveitamento >= 90) {
+        medalha = "🏆"
+        mensagem = "Você tá FERA!"
+    } else if (aproveitamento >= 70) {
+        medalha = "🥈"
+        mensagem = "LEGAL! Mas insignificante."
+    } else if (aproveitamento >= 50) {
+        medalha = "🥉"
+        mensagem = "POW MANO, ATÉ MINHA AVÓ RESPONDE MELHOR"
+    }
+    
+    els.resultadoMedalha.textContent = medalha
+    els.resultadoNome.textContent = estado.nickName
+    els.scoreFinal.textContent = estado.pontos
+    els.statAcertos.textContent = estado.acertos
+    els.statErros.textContent = estado.erros
+    els.statPorcento.textContent = aproveitamento + "%"
+    els.resultadoMsg.textContent = mensagem    
+
+    mostrarTela ("resultado")
+
+}
+
+
+// reiniciarJogo()
+// Limpa o campo de nickname.
+// Chama mostrarTela("home").
+function reiniciarJogo() {
+    els.inputNickname.value = " ";
+    mostrarTela("home");
+
+}
+
+els.btnJogarNovamente.addEventListener('click', reiniciarJogo)
 
 
 // ------------------------------------------------------------
@@ -330,3 +394,26 @@ function mostrarResultado() {}
 // Crie a função init() e chame ela aqui.
 // Ela deve preencher totalPerguntas e totalCategorias na home.
 // ------------------------------------------------------------
+
+function init() {
+    let categorias = []
+
+    for (let i = 0; i < perguntas.length; i++) {
+        //perguntas[7].categoria === html (indexOf vai retornar -1) então
+        //não existe ainda na nossas categorias destintas
+        if(categorias.indexOf(perguntas[i].categoria) === -1){
+            console.log("resultado da verificação"+ categorias.indexOf(perguntas[i].categorias))
+            console.log(perguntas[i].categorias)
+            console.log(categorias)
+        categorias.push(perguntas[i].categoria)
+
+    } 
+
+}
+console.log(categorias)
+
+els.totalPerguntas.textContent = perguntas.length
+els.totalCategorias.textContent = categorias.length
+}
+
+init()
