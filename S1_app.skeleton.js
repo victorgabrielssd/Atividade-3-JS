@@ -191,6 +191,52 @@ els.btnIniciar.addEventListener("click", iniciarJogo)
 // Atenção: use "let i" no for, não "var i".
 // Chama iniciarTimer().
 function mostrarPergunta() {
+    let pergunta = estado.perguntasJogo[estado.indiceAtual]
+    estado.respondeu = false;
+
+// progresso do jogo
+    let num = estado.indiceAtual + 1;
+    let total = estado.perguntasJogo.length
+
+    els.questaoAtual.textContent = num
+    els.questaoTotal.textContent = total
+    els.barraFill.style.width = ((num / total) * 100) + "%"
+
+// textos das perguntas
+
+    els.categoriaTag.textContent = pergunta.categoria
+    els.questaoTexto.textContent = pergunta.pergunta
+
+// limpa as opções anteriores e reconstroe
+    els.opcoesGrid.innerHTML = ""
+    
+    let letras = ["A", "B", "C", "D"]
+    let classes = ["letra-a", "letra-b", "letra-c", "letra-d" ]
+
+    for (let i = 0; i < pergunta.opcoes.length; i++) {
+        let btn = document.createElement("button")
+        btn.className = "opcao-btn"
+        btn.type = "button"
+
+        let spanLetra = document.createElement("span")
+        spanLetra.className = "opcao-letra" + classes[i]
+        spanLetra.textContent = letras[i]
+
+        let spanTexto = document.createElement("span")
+        spanTexto.className = "opcao-texto"
+        spanTexto.textContent = pergunta.opcoes[i]
+
+        btn.appendChild(spanLetra)
+        btn.appendChild(spanTexto)
+
+        //let i garante q cada botão capture seu próprio índice
+        btn.addEventListener("click", function(){
+            responder(i)
+        })
+
+        els.opcoesGrid.appendChild(btn)
+    }
+
 } 
 
 
@@ -210,14 +256,44 @@ function iniciarTimer() {
 // Compara indiceEscolhido com pergunta.correta.
 // Marca botões com classList: "correta" e "errada".
 // setTimeout de 1s → mostrarFeedback().
-function responder(indiceEscolhido) {}
+function responder(indiceEscolhido) {
+
+    if (estado.respondeu) return
+    estado.respondeu = true
+
+    var pergunta = estado.perguntasJogo[estado.indiceAtual]
+    var acertou = (indiceEscolhido === pergunta.correta)
+    
+    //Marca os botões visualmente
+    var botoes = els.opcoesGrid.querySelectorAll(".opcao-btn")
+
+    botoes.forEach(function(btn, idx) {
+        btn.disabled = true
+        if (idx === pergunta.correta) {
+            btn.classList.add("correta")
+        } else if (idx === indiceEscolhido) {
+            btn.classList.add("errada")
+        }
+    })
+    // Aguarda 1s para o jogador ver o resultado visual antes de mudar de tela
+    setTimeout(function() {
+        if (acertou) {
+            var pts = calcularPontos (estado.timerSegundos)
+            estado.pontos += pts
+            estado.acertos++
+            mostrarFeedback (true, pts, pergunta.explicacao)
+
+        } else {
+          estado.erros++
+          mostrarFeedback(false, 0, pergunta.explicacao)
+        }}, 1000)
+}
 
 
 // mostrarFeedback(acertou, pontosGanhos, explicacao)
 // Atualiza ícone, título, pontos e explicação.
 // Chama mostrarTela("feedback").
-function mostrarFeedback(acertou, pontosGanhos, explicacao) {}
-
+function mostrarFeedback(acertou, pontosGanhos, explicacao) 
 
 
 // proximaPergunta()
