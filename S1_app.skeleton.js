@@ -236,7 +236,7 @@ function mostrarPergunta() {
 
         els.opcoesGrid.appendChild(btn)
     }
-
+        iniciarTimer()
 } 
 
 
@@ -246,6 +246,35 @@ function mostrarPergunta() {
 // A cada 1000ms: decrementa, atualiza DOM, move arco SVG.
 // Se timerSegundos <= 0: clearInterval e responder(-1).
 function iniciarTimer() {
+
+    let CIRCUNFERENCIA = 107
+
+    estado.timerSegundos = 20
+    els.timerNum.textContent = 20;
+    els.timerArco.style.strokeDashoffset = 0
+    els.timerArco.style.stroke = "var(--laranja)"
+
+    clearInterval(estado.timerIntervalo);
+    
+    estado.timerIntervalo = setInterval(function() {
+        estado.timerSegundos--;
+        els.timerNum.textContent = estado.timerSegundos;
+
+        let progresso = estado.timerSegundos/20
+
+        els.timerArco.style.strokeDashoffset = CIRCUNFERENCIA * (1-progresso)
+
+        if(estado.timerSegundos <= 5){
+            els.timerArco.style.stroke = "var(--vermelho)"
+        }   else if(estado.timerSegundos <= 10){
+            els.timerArco.style.stroke = "var(--amarelo)"
+        }
+
+        if(estado.timerSegundos <= 0){
+            clearInterval(estado.timerIntervalo)
+            responder(-1)
+        }
+    }, 1000);
 
 }
 
@@ -401,19 +430,18 @@ function init() {
     for (let i = 0; i < perguntas.length; i++) {
         //perguntas[7].categoria === html (indexOf vai retornar -1) então
         //não existe ainda na nossas categorias destintas
-        if(categorias.indexOf(perguntas[i].categoria) === -1){
-            console.log("resultado da verificação"+ categorias.indexOf(perguntas[i].categorias))
-            console.log(perguntas[i].categorias)
-            console.log(categorias)
-        categorias.push(perguntas[i].categoria)
-
+        if(categorias.indexOf(perguntas[i].categoria) === -1) {
+            console.log(perguntas[i].categorias);
+            console.log(categorias.indexOf(perguntas[i].categorias),);
+            console.log(perguntas[i].categorias);
+            console.log(categorias);
+        categorias.push(perguntas[i].categoria);
     } 
-
 }
-console.log(categorias)
+console.log(categorias);
 
-els.totalPerguntas.textContent = perguntas.length
-els.totalCategorias.textContent = categorias.length
+els.totalPerguntas.textContent = perguntas.length;
+els.totalCategorias.textContent = categorias.length;
 }
 
-init()
+init();

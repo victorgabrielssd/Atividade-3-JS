@@ -108,3 +108,21 @@ const perguntas = [
   }
 
 ]
+const FONTES = [
+  {
+  url: "https://opentdb.com/api.php?amount=5&category=18&difficulty=medium&type=multiple&encode=base64",
+  categoria: "Tecnologia",
+  },
+  {
+    url: "https://opentdb.com/api.php?amount=5&category=27&difficulty=medium&type=multiple&encode=base64",
+    categoria: "Animal"
+  },
+  {
+    url: "https://opentdb.com/api.php?amount=5&category=20&difficulty=medium&type=multiple&encode=base64",
+    categoria:"Mitologia"
+  },
+  {
+    url: "https://opentdb.com/api.php?amount=5&category=14&difficulty=medium&type=multiple&encode=base64",
+    categoria:"Televisão"
+  }
+]
