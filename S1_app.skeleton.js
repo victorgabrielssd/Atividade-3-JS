@@ -120,31 +120,12 @@ function mostrarTela(nomeTela) {
 //     j = Math.floor(Math.random() * (i + 1))
 //     troca copia[i] com copia[j]
 //   retorna copia
-function embaralhar(array) {
-    let copia = array.slice()
-    for (let i = copia.length - 1; i > 0; i--) {
-        let j = Math.floor(Math.random() * (i + 1)) // 3
-        let temp = copia[i] // i = 5 e ele é igual a "joao"
-        copia[i] = copia[j] // lucas
-        copia[j] = temp
-    }
-    return copia
-}
-let resultado = embaralhar([1,2,3,4,5,6])
-let resultado1 = embaralhar([1,2,3,4,5,6])
-let resultado2 = embaralhar([1,2,3,4,5,6])
-console.log(resultado)
-console.log(resultado1)
-console.log(resultado2)
+function embaralhar(array) {}
 
 
 // calcularPontos(segundosRestantes)
 // Retorna: 500 + (segundosRestantes * 25)
-function calcularPontos(segundosRestantes) {
-    return 500 + (segundosRestantes * 25)
-}
-
-console.log(calcularPontos(5))
+function calcularPontos(segundosRestantes) {}
 
 // ------------------------------------------------------------
 // 4. LÓGICA DO JOGO
@@ -154,33 +135,7 @@ console.log(calcularPontos(5))
 // Valida nickname (mínimo 2 chars).
 // Reseta o estado. Embaralha as perguntas.
 // Chama mostrarTela("questao") e mostrarPergunta().
-function iniciarJogo() {
-    let nome = els.inputNickname.value.trim()
-
-    if(nome.length < 3) {
-        els.erroNickname.textContent = "Digite pelo menos 3 caracteres."
-        return
-    }
-
-    els.erroNickname.textContent = "";
-    estado.nickName = nome;
-    estado.pontos = 0;
-    estado.indiceAtual = 0;
-    estado.acertos = 0;
-    estado.erros = 0;
-
- estado.perguntasJogo = embaralhar(perguntas)
-    mostrarTela("questao")
-    mostrarPergunta()
-}
-
-els.inputNickname.addEventListener("keydown", function(e) {
-    if(e.key === "Enter") {
-        iniciarJogo()
-    }
-})
-
-els.btnIniciar.addEventListener("click", iniciarJogo)
+function iniciarJogo() {}
 
 
 // mostrarPergunta()
@@ -190,54 +145,7 @@ els.btnIniciar.addEventListener("click", iniciarJogo)
 // Conecta addEventListener em cada botão → responder(i).
 // Atenção: use "let i" no for, não "var i".
 // Chama iniciarTimer().
-function mostrarPergunta() {
-    let pergunta = estado.perguntasJogo[estado.indiceAtual]
-    estado.respondeu = false;
-
-// progresso do jogo
-    let num = estado.indiceAtual + 1;
-    let total = estado.perguntasJogo.length
-
-    els.questaoAtual.textContent = num
-    els.questaoTotal.textContent = total
-    els.barraFill.style.width = ((num / total) * 100) + "%"
-
-// textos das perguntas
-
-    els.categoriaTag.textContent = pergunta.categoria
-    els.questaoTexto.textContent = pergunta.pergunta
-
-// limpa as opções anteriores e reconstroe
-    els.opcoesGrid.innerHTML = ""
-    
-    let letras = ["A", "B", "C", "D"]
-    let classes = ["letra-a", "letra-b", "letra-c", "letra-d" ]
-
-    for (let i = 0; i < pergunta.opcoes.length; i++) {
-        let btn = document.createElement("button")
-        btn.className = "opcao-btn"
-        btn.type = "button"
-
-        let spanLetra = document.createElement("span")
-        spanLetra.className = "opcao-letra" + classes[i]
-        spanLetra.textContent = letras[i]
-
-        let spanTexto = document.createElement("span")
-        spanTexto.className = "opcao-texto"
-        spanTexto.textContent = pergunta.opcoes[i]
-
-        btn.appendChild(spanLetra)
-        btn.appendChild(spanTexto)
-
-        //let i garante q cada botão capture seu próprio índice
-        btn.addEventListener("click", function(){
-            responder(i)
-        })
-
-        els.opcoesGrid.appendChild(btn)
-    }
-
-} 
+function mostrarPergunta() {} 
 
 
 // iniciarTimer()
@@ -256,43 +164,30 @@ function iniciarTimer() {
 // Compara indiceEscolhido com pergunta.correta.
 // Marca botões com classList: "correta" e "errada".
 // setTimeout de 1s → mostrarFeedback().
-function responder(indiceEscolhido) {
-
-}
+function responder(indiceEscolhido) {}
 
 
 // mostrarFeedback(acertou, pontosGanhos, explicacao)
 // Atualiza ícone, título, pontos e explicação.
 // Chama mostrarTela("feedback").
-function mostrarFeedback(acertou, pontosGanhos, explicacao) {
+function mostrarFeedback(acertou, pontosGanhos, explicacao) {}
 
-}
 
 
 // proximaPergunta()
 // indiceAtual++
 // Se ainda há perguntas → mostrarPergunta().
 // Senão → mostrarResultado().
-function proximaPergunta() {
+function proximaPergunta() {}
 
-}
 
 
 // mostrarResultado()
 // Calcula aproveitamento. Define medalha e mensagem.
 // Atualiza DOM da tela de resultado.
 // Chama mostrarTela("resultado").
-function mostrarResultado() {
-
-}
-
-
-// reiniciarJogo()
-// Limpa o campo de nickname.
-// Chama mostrarTela("home").
-function reiniciarJogo() {
-
-}
+function mostrarResultado() {}
+   
 
 
 // ------------------------------------------------------------
