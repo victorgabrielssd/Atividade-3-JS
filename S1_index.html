@@ -24,7 +24,7 @@
     <div class="home-info">
       <div class="info-card">
         <!-- ❌ id errado. O app.js procura "total-perguntas". -->
-        <span class="info-num" id="qtd-perguntas">--</span>
+        <span class="info-num" id="total-perguntas">--</span>
         <span class="info-label">perguntas</span>
       </div>
       <div class="info-card">
@@ -39,15 +39,9 @@
 
     <div class="campo-nickname">
       <label for="input-nickname">seu nickname</label>
-      <input
-        type="text"
-        id="input-nickname"
-        placeholder="ex: dev_caju"
-        maxlength="20"
-        autocomplete="off"
-      />
-     
+      <input type="text" id="input-nickname" placeholder="ex: dev_caju" maxlength="20" autocomplete="off" />
       <span class="campo-erro" id="erro-nickname"></span>
+      <p id="loading-msg" class="loading-msg"></p>
     </div>
 
     <button class="btn btn-primario" id="btn-iniciar">
@@ -76,7 +70,7 @@
       <div class="timer-wrap">
         <svg class="timer-svg" viewBox="0 0 40 40">
           <circle class="timer-trilha" cx="20" cy="20" r="17" />
-          <circle class="timer-arco"   cx="20" cy="20" r="17" id="timer-arco" />
+          <circle class="timer-arco" cx="20" cy="20" r="17" id="timer-arco" />
         </svg>
         <span class="timer-num" id="timer-num">20</span>
       </div>
@@ -136,7 +130,7 @@
 
     <div class="resultado-topo">
       <div class="resultado-medalha" id="resultado-medalha">🏅</div>
- 
+
       <h2 class="resultado-nome" id="resultado-nome">jogador</h2>
     </div>
 
@@ -169,8 +163,9 @@
     </button>
 
   </section>
-  <script src="S1_app.skeleton.js"></script>
   <script src="S1_questions.js"></script>
+  <script src="S1_app.skeleton.js"></script>
+
 </body>
 
 </html>

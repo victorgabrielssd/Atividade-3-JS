@@ -65,6 +65,7 @@ const els = {
     btnIniciar: document.getElementById("btn-iniciar"),
     totalPerguntas: document.getElementById("total-perguntas"),
     totalCategorias: document.getElementById("total-categorias"),
+    loadingMsg: document.getElementById("loading-msg"),
 
     // questão
     questaoAtual: document.getElementById("questao-atual"),
@@ -154,7 +155,7 @@ console.log(calcularPontos(5))
 // Valida nickname (mínimo 2 chars).
 // Reseta o estado. Embaralha as perguntas.
 // Chama mostrarTela("questao") e mostrarPergunta().
-function iniciarJogo() {
+async function iniciarJogo() {
     let nome = els.inputNickname.value.trim()
 
     if(nome.length < 3) {
@@ -168,8 +169,10 @@ function iniciarJogo() {
     estado.indiceAtual = 0;
     estado.acertos = 0;
     estado.erros = 0;
-
+    
+ let totalPerguntas = await window.bancoDePerguntasAsync
  estado.perguntasJogo = embaralhar(perguntas)
+
     mostrarTela("questao")
     mostrarPergunta()
 }
@@ -291,14 +294,15 @@ function responder(indiceEscolhido) {
     estado.respondeu = true
 
     var pergunta = estado.perguntasJogo[estado.indiceAtual]
-    var acertou = (indiceEscolhido === pergunta.correta)
+    var indiceCorreto = pergunta.correta
+    var acertou = (indiceEscolhido === indiceCorreto)
     
     //Marca os botões visualmente
     var botoes = els.opcoesGrid.querySelectorAll(".opcao-btn")
 
     botoes.forEach(function(btn, idx) {
         btn.disabled = true
-        if (idx === pergunta.correta) {
+        if (idx === indiceCorreto) {
             btn.classList.add("correta")
         } else if (idx === indiceEscolhido) {
             btn.classList.add("errada")
@@ -424,24 +428,30 @@ els.btnJogarNovamente.addEventListener('click', reiniciarJogo)
 // Ela deve preencher totalPerguntas e totalCategorias na home.
 // ------------------------------------------------------------
 
-function init() {
+async function init() {
+  els.btnIniciar.disabled    = true
+  els.loadingMsg.textContent = "carregando perguntas..."
+
+  try {
+    let perguntas = await window.bancoDePerguntasAsync
+
     let categorias = []
-
     for (let i = 0; i < perguntas.length; i++) {
-        //perguntas[7].categoria === html (indexOf vai retornar -1) então
-        //não existe ainda na nossas categorias destintas
-        if(categorias.indexOf(perguntas[i].categoria) === -1) {
-            console.log(perguntas[i].categorias);
-            console.log(categorias.indexOf(perguntas[i].categorias),);
-            console.log(perguntas[i].categorias);
-            console.log(categorias);
-        categorias.push(perguntas[i].categoria);
-    } 
-}
-console.log(categorias);
+      if (categorias.indexOf(perguntas[i].categoria) === -1) {
+        categorias.push(perguntas[i].categoria)
+      }
+    }
 
-els.totalPerguntas.textContent = perguntas.length;
-els.totalCategorias.textContent = categorias.length;
+    els.totalPerguntas.textContent  = perguntas.length
+    els.totalCategorias.textContent = categorias.length
+    els.loadingMsg.textContent      = ""
+    els.btnIniciar.disabled         = false
+    
+
+  } catch (erro) {
+    els.loadingMsg.textContent = "erro ao carregar. recarregue a página."
+    console.error("[QuizCaju] Falha na inicialização:", erro)
+  }
 }
 
-init();
+init()
